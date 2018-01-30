@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--映射接口-->
+<mapper namespace="mapper.UserMapper">
+  <!--映射接口方法-->
+ 
+ 
+ 
+ <!-- 查 -->
+  <select id="selectByName" parameterType="User" resultType="User">
+  	select * from user where username= #{username}
+  </select>
+  
+  <select id="selectUserListAll" resultType="User">
+  	select * from user
+  </select>
+  
+  <!-- 查 -->
+  <select id="listUsers" resultType="User">
+  	select * from user
+  </select>
+  
+  
+  
+  <!-- 增-->
+  <insert id="insert" parameterType="User">
+  	insert into user(id,username,password,phone)
+  	values(#{id},#{username},#{password},#{phone})
+  </insert>
+  <insert id="insertAccount" parameterType="User">
+  	insert into user(id,username,password,vname,age,sex,address,phone,isadmin)
+  	values(#{id},#{username},#{password},#{vname},#{age},#{sex},#{address},#{phone},#{isadmin})
+  </insert>
+  
+  
+  <!-- 删 -->
+  <delete id="delete" parameterType="java.lang.Integer">
+  	delete from user where id=#{id}
+  </delete>
+  
+  
+  <!-- 改 -->
+  <update id="updateMessage" parameterType="User">
+  	update user set vname=#{vname},age=#{age},sex=#{sex},phone=#{phone},address=#{address}
+  	where id=#{id}
+  </update>
+  
+  <update id="updateUser" parameterType="User">
+  	update user set vname=#{vname},password=#{password}
+  	where id=#{id}
+  </update>
+  
+</mapper>

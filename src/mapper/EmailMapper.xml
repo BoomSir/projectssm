@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--映射接口-->
+<mapper namespace="mapper.EmailMapper">
+  <!--映射接口方法-->
+ 
+ 
+ 
+<!-- 通过收件人查询邮件(除去删除的邮件) -->
+  <select id="listMails" parameterType="String" resultType="Mail">
+  	select * from mail where recipient=#{recipient} and isread in (0,1)
+  </select>
+  
+  <!-- 通过收件人查询删除邮件 -->
+  <select id="listMails2" parameterType="String" resultType="Mail">
+  	select * from mail where recipient=#{recipient} and isread=2
+  </select>
+  
+  <!-- 通过mid查询邮件(除去删除的邮件) -->
+  <select id="selectOneMail" parameterType="java.lang.Integer" resultType="Mail">
+  	select * from mail where mid=#{mid}
+  </select>
+  
+  
+   <!-- 增-->
+  <insert id="insertEmail" parameterType="Mail" useGeneratedKeys="true" keyProperty="mid">
+  	insert into mail(recipient,title,content,isread,time,operating,file)
+  	values(#{recipient},#{title},#{content},#{isread},#{time},#{operating},#{file})
+  </insert>
+  
+  <!-- 把删除文件的isread改为2，认为删除 -->
+  <update id="updateOneMail" parameterType="java.lang.Integer">
+  	update mail set isread=2 where mid=#{mid}
+  </update>
+  
+  <!-- 把删除文件的isread改为1，认为已读 -->
+  <update id="updateByMid" parameterType="java.lang.Integer">
+  	update mail set isread=0 where mid=#{mid}
+  </update>
+  
+  
+  <delete id="deleteMail" parameterType="java.lang.Integer">
+  	delete from mail where mid=#{mid}
+  </delete>
+
+  
+</mapper>

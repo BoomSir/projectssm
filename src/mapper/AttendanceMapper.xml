@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--映射接口-->
+<mapper namespace="mapper.AttendanceMapper">
+  <!--映射接口方法-->
+ 
+ 
+ 
+<!-- 通过收件人查询邮件(除去删除的邮件) -->
+  <select id="selectLeaveForms" parameterType="String" resultType="LeaveForm">
+  	select * from leaveform where applicant=#{applicant}
+  </select>
+  
+  <!-- 通过rid查询邮件 -->
+  <select id="selectOneLeaveForm" parameterType="java.lang.Integer" resultType="LeaveForm">
+  	select * from leaveform where rid=#{rid}
+  </select>
+  
+  <select id="selectListUserAdmins" resultType="User">
+  	select * from user where isadmin=1
+  </select>
+  
+  <!-- 增-->
+  <insert id="insertLeaveForm" parameterType="LeaveForm" useGeneratedKeys="true" keyProperty="mid">
+  	insert into leaveform(applicant,begintime,endtime,days,approvalStatus,reason,approver)
+  	values(#{applicant},#{begintime},#{endtime},#{days},#{approvalStatus},#{reason},#{approver})
+  </insert>
+  
+  <!-- 把该文件的状态改变改为已审核，认为已审核 -->
+  <update id="updateByRid1" parameterType="java.lang.Integer">
+  	update leaveform set approvalStatus="已审核" where rid=#{rid}
+  </update>
+  
+  <!-- 把该文件的状态改变改为审核不通过，认为审核不通过 -->
+  <update id="updateByRid2" parameterType="java.lang.Integer">
+  	update leaveform set approvalStatus="审核不通过" where rid=#{rid}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- 通过收件人查询删除邮件 -->
+  <select id="listMails2" parameterType="String" resultType="Mail">
+  	select * from mail where recipient=#{recipient} and isread=2
+  </select>
+  
+  <!-- 通过mid查询邮件(除去删除的邮件) -->
+  <select id="selectOneMail" parameterType="java.lang.Integer" resultType="Mail">
+  	select * from mail where mid=#{mid}
+  </select>
+  
+  
+   
+  
+  <!-- 把删除文件的isread改为2，认为删除 -->
+  <update id="updateOneMail" parameterType="java.lang.Integer">
+  	update mail set isread=2 where mid=#{mid}
+  </update>
+  
+  
+  
+  
+  <delete id="deleteMail" parameterType="java.lang.Integer">
+  	delete from mail where mid=#{mid}
+  </delete>
+
+  
+</mapper>
